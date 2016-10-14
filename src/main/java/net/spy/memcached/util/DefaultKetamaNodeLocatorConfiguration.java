@@ -54,11 +54,11 @@ public class DefaultKetamaNodeLocatorConfiguration implements
     // I'm using a HashMap implementation of the map, but the worst
     // case ( I believe) is we're slightly in-efficient when
     // a node has never been seen before concurrently on two different
-    // threads, so it the address will be requested mulvtiple times!
+    // threads, so it the address will be requested multiple times!
     // all other cases should be as fast as possible.
     String result = address.get(node);
     if (result == null) {
-      result = String.valueOf(node.getHostPort().hashCode());
+      result = String.valueOf(node.getHostPort());
       if (result.startsWith("/")) {
         result = result.substring(1);
       }
