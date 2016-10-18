@@ -37,6 +37,7 @@ import net.spy.memcached.ops.OperationQueueFactory;
 import net.spy.memcached.protocol.ascii.AsciiOperationFactory;
 import net.spy.memcached.protocol.binary.BinaryOperationFactory;
 import net.spy.memcached.transcoders.Transcoder;
+import net.spy.memcached.util.KetamaDNSNameNodeLocatorConfiguration;
 
 /**
  * Builder for more easily configuring a ConnectionFactory.
@@ -351,6 +352,8 @@ public class ConnectionFactoryBuilder {
           return new ArrayModNodeLocator(nodes, getHashAlg());
         case CONSISTENT:
           return new KetamaNodeLocator(nodes, getHashAlg());
+        case CONSISTENT_DNS_NAME:
+            return new KetamaNodeLocator(nodes, getHashAlg(), new KetamaDNSNameNodeLocatorConfiguration());
         default:
           throw new IllegalStateException("Unhandled locator type: " + locator);
         }
@@ -486,6 +489,13 @@ public class ConnectionFactoryBuilder {
     /**
      * VBucket support.
      */
-    VBUCKET
+    VBUCKET,
+    /**
+     * Consistent hash algorithm.
+     *
+     * This uses ketema's distribution algorithm using the DNS name as node key instead of the node´ IP,
+     * but may be used with any hash algorithm.
+     */
+    CONSISTENT_DNS_NAME
   }
 }

@@ -58,7 +58,7 @@ public class DefaultKetamaNodeLocatorConfiguration implements
     // all other cases should be as fast as possible.
     String result = address.get(node);
     if (result == null) {
-      result = String.valueOf(node.getHostPort().hashCode());
+      result = String.valueOf(node.getHostPort());
       if (result.startsWith("/")) {
         result = result.substring(1);
       }

@@ -28,7 +28,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import org.jmock.Mock;
-import org.junit.Ignore;
 
 /**
  * Test ketama node location.
@@ -95,7 +94,7 @@ public class KetamaNodeLocatorTest extends AbstractNodeLocationCase {
     setupNodes(4);
     assertSame(nodes[0], locator.getPrimary("dustin"));
     assertSame(nodes[2], locator.getPrimary("noelani"));
-    assertSame(nodes[2], locator.getPrimary("some other key"));
+    assertSame(nodes[0], locator.getPrimary("some other key"));
   }
 
   public void testLookupsClone() {
@@ -104,7 +103,7 @@ public class KetamaNodeLocatorTest extends AbstractNodeLocationCase {
         locator.getReadonlyCopy().getPrimary("dustin").toString());
     assertSame(nodes[2].toString(),
         locator.getReadonlyCopy().getPrimary("noelani").toString());
-    assertSame(nodes[2].toString(),
+    assertSame(nodes[0].toString(),
         locator.getReadonlyCopy().getPrimary("some other key").toString());
   }
 
@@ -118,18 +117,18 @@ public class KetamaNodeLocatorTest extends AbstractNodeLocationCase {
      * key=PwGen.getPass(8); }
      * System.out.println("Found a key past the end of the continuum:  " + key);
      */
-    assertEquals(4287677408L, ((KetamaNodeLocator) locator).getMaxKey());
+    assertEquals(4294887009L, ((KetamaNodeLocator) locator).getMaxKey());
 
-    assertSame(nodes[0], locator.getPrimary("V5XS8C8N"));
-    assertSame(nodes[0], locator.getPrimary("8KR2DKR2"));
-    assertSame(nodes[0], locator.getPrimary("L9KH6X4X"));
+    assertSame(nodes[3], locator.getPrimary("V5XS8C8N"));
+    assertSame(nodes[3], locator.getPrimary("8KR2DKR2"));
+    assertSame(nodes[3], locator.getPrimary("L9KH6X4X"));
   }
 
   public void testClusterResizing() {
     setupNodes(4);
     assertSame(nodes[0], locator.getPrimary("dustin"));
     assertSame(nodes[2], locator.getPrimary("noelani"));
-    assertSame(nodes[2], locator.getPrimary("some other key"));
+    assertSame(nodes[0], locator.getPrimary("some other key"));
 
     setupNodes(5);
     assertSame(nodes[0], locator.getPrimary("dustin"));
@@ -139,12 +138,12 @@ public class KetamaNodeLocatorTest extends AbstractNodeLocationCase {
 
   public void testSequence1() {
     setupNodes(4);
-    assertSequence("dustin", 0, 0, 0, 2, 3, 1, 0);
+    assertSequence("dustin", 0, 2, 1, 2, 3, 2, 0);
   }
 
   public void testSequence2() {
     setupNodes(4);
-    assertSequence("noelani", 2, 3, 3, 1, 1, 2, 3);
+    assertSequence("noelani", 2, 1, 1, 3, 2, 2, 3);
   }
 
   private void assertPosForKey(String k, int nid) {
@@ -153,20 +152,20 @@ public class KetamaNodeLocatorTest extends AbstractNodeLocationCase {
 
   public void testLibKetamaCompat() {
     setupNodes(5);
-    assertPosForKey("36", 3);
-    assertPosForKey("10037", 4);
-    assertPosForKey("22051", 4);
-    assertPosForKey("49044", 3);
+    assertPosForKey("36", 2);
+    assertPosForKey("10037", 3);
+    assertPosForKey("22051", 1);
+    assertPosForKey("49044", 4);
   }
 
   public void testFNV1A32() {
     HashAlgorithm alg = DefaultHashAlgorithm.FNV1A_32_HASH;
     setupNodes(alg, 5);
-    assertSequence("noelani", 2, 0, 4, 0, 1, 3, 0);
+    assertSequence("noelani", 1, 2, 2, 2, 3, 4, 2);
 
-    assertSame(nodes[1], locator.getPrimary("dustin"));
-    assertSame(nodes[2], locator.getPrimary("noelani"));
-    assertSame(nodes[2], locator.getPrimary("some other key"));
+    assertSame(nodes[2], locator.getPrimary("dustin"));
+    assertSame(nodes[1], locator.getPrimary("noelani"));
+    assertSame(nodes[4], locator.getPrimary("some other key"));
   }
 
   private MemcachedNode[] mockNodes(String[] servers) {
@@ -1815,7 +1814,7 @@ public class KetamaNodeLocatorTest extends AbstractNodeLocationCase {
       String k = s[0];
       String server = s[1];
       MemcachedNode n = locator.getPrimary(k);
-      //assertEquals(server, n.getHostPort().toString());
+      assertEquals(server, n.getHostPort().toString());
     }
 
   }
