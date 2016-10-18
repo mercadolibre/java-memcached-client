@@ -164,9 +164,9 @@ public class KetamaNodeLocatorTest extends AbstractNodeLocationCase {
     setupNodes(alg, 5);
     assertSequence("noelani", 2, 0, 4, 0, 1, 3, 0);
 
-    assertSame(nodes[2], locator.getPrimary("dustin"));
-    assertSame(nodes[3], locator.getPrimary("noelani"));
-    assertSame(nodes[4], locator.getPrimary("some other key"));
+    assertSame(nodes[1], locator.getPrimary("dustin"));
+    assertSame(nodes[2], locator.getPrimary("noelani"));
+    assertSame(nodes[2], locator.getPrimary("some other key"));
   }
 
   private MemcachedNode[] mockNodes(String[] servers) {

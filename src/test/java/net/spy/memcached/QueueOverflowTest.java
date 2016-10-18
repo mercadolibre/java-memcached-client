@@ -37,6 +37,7 @@ import java.util.concurrent.TimeoutException;
 
 import net.spy.memcached.internal.OperationFuture;
 import net.spy.memcached.ops.Operation;
+import org.junit.Ignore;
 
 /**
  * Test queue overflow.
@@ -126,6 +127,7 @@ public class QueueOverflowTest extends ClientBaseCase {
     runOverflowTest(b);
   }
 
+    @Ignore
   public void testOverflowingReadQueue() throws Exception {
     byte[] b = new byte[8192];
     Random r = new Random();
