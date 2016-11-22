@@ -51,7 +51,7 @@
   <property name="build.classes" location="${build.dir}/classes"/>
 
   <property name="git.hash" value="" />
-  <var name="version" value="no-version"/>
+  <var name="version" value="2.11.5-ml-RC1"/>
 
   <!-- ivy properties used -->
   <property name="ivy.settings.dir" value="${basedir}/ivy" />
@@ -120,7 +120,7 @@
 
   <!-- maven central repo urls -->
   <property name="maven-snapshots-repository-id" value="sonatype-nexus-snapshots" />
-  <property name="maven-snapshots-repository-url" value="https://oss.sonatype.org/content/repositories/snapshots/" />
+  <property name="maven-snapshots-repository-url" value="http://git.ml.com:8081/nexus/content/repositories/MLGrailsPlugins" />
   <property name="maven-staging-repository-id" value="sonatype-nexus-staging" />
   <property name="maven-staging-repository-url" value="https://oss.sonatype.org/service/local/staging/deploy/maven2/" />
 
@@ -379,7 +379,7 @@
     <if>
       <equals arg1="${err}" arg2="0"/>
       <then>
-        <var name="version" value="${result}"/>
+        <var name="version" value="2.11.5-ml-RC1"/>
       </then>
     </if>
     <exec executable="${script.src.dir}/write-version-info.sh"
@@ -555,9 +555,10 @@
     <artifact:mvn>
         <arg value="org.apache.maven.plugins:maven-deploy-plugin:2.6:deploy-file" />
         <arg value="-Durl=${maven-snapshots-repository-url}" />
-        <arg value="-DrepositoryId=${maven-snapshots-repository-id}" />
+        <arg value="-DrepositoryId=MLGrailsPlugins" />
         <arg value="-DpomFile=${spymemcached.pom}" />
         <arg value="-Dfile=${build.dir}/jars/${name}-${version}.jar" />
+        <arg value="-DgroupId=net.spy" />
     </artifact:mvn>
   </target>
 
